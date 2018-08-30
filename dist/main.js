@@ -59,6 +59,19 @@ server.get('/livros', (req, resp, next) => {
     });
     return next();
 });
+server.get('/livros/:id', (req, resp, next) => {
+    let id = req.params.id;
+    livros_1.Livro.findById(id).then((resposta) => {
+        if (resposta) {
+            resp.json(resposta);
+            return next();
+        }
+        else {
+            resp.send(400);
+            return next();
+        }
+    });
+});
 //Configurações do serviço do servidor
 server.listen(3000, () => {
     console.log("O serviço está ativo");
