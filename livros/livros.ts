@@ -22,7 +22,32 @@ export class Livro {
             if(filtrados.length>0){
                 exemplar = filtrados[0];//Grava na var exemplar
             }
+            
             resolve(exemplar);//Resolve a promessa
         })
     }
+    static deleteById(id:String):Promise<any[]>{
+        exemplares.splice(Number.parseInt(id.toString())-1,1)
+        return Promise.resolve(exemplares);
+          
+    }
+
+    static add(ex):Promise<any[]>{
+        exemplares.push(ex);
+        return Promise.resolve(exemplares);
+    }
+    
+    static edit(id:String,newData:Object):Promise<any>{
+        const exemplar = exemplares[parseInt(id.toString())];
+        const update = newData;
+        for (let field in update){
+            exemplar[field] = update[field];
+        }
+        return Promise.resolve(exemplar);
+
+
+       
+    }
+    
+    
 }
