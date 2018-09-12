@@ -25,5 +25,21 @@ class Livro {
             resolve(exemplar); //Resolve a promessa
         });
     }
+    static deleteById(id) {
+        exemplares.splice(Number.parseInt(id.toString()) - 1, 1);
+        return Promise.resolve(exemplares);
+    }
+    static add(ex) {
+        exemplares.push(ex);
+        return Promise.resolve(exemplares);
+    }
+    static edit(id, newData) {
+        const exemplar = exemplares[parseInt(id.toString())];
+        const update = newData;
+        for (let field in update) {
+            exemplar[field] = update[field];
+        }
+        return Promise.resolve(exemplar);
+    }
 }
 exports.Livro = Livro;

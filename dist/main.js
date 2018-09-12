@@ -8,7 +8,12 @@ const server = restify.createServer({
     name: 'api-teste',
     version: '1.0.0'
 });
+server.use(restify.plugins.acceptParser(server.acceptable));
+server.use(restify.plugins.queryParser());
+server.use(restify.plugins.bodyParser());
+//restify.plugins.bodyParser();
 //Configurações da rota OI
+/* server.use(restify.plugins.bodyParser({mapParams:true})); */
 server.get('/oi', (req, resp, next) => {
     resp.status(400);
     resp.json({ message: "O servidor está funcionando" });
@@ -70,6 +75,28 @@ server.get('/livros/:id', (req, resp, next) => {
             resp.send(400);
             return next();
         }
+    });
+});
+server.del('/livros/:id', (req, resp, next) => {
+    livros_1.Livro.deleteById(req.params.id).then((result) => {
+        resp.json(result);
+        return next();
+    });
+});
+server.post('/livros', (req, resp, next) => {
+    /*  const name = req.params; */
+    /*   resp.json({message:name}); */
+    const obj = req.params;
+    livros_1.Livro.add(obj).then((res) => {
+        resp.json(res);
+    });
+    return next();
+});
+server.put('/livros/:id', (req, resp, next) => {
+    const id = req.params.id;
+    const newData = req.body;
+    livros_1.Livro.edit(id, newData).then((res) => {
+        resp.json(res);
     });
 });
 //Configurações do serviço do servidor
